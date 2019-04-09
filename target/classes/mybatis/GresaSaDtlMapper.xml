@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- 映射文件，映射到对应的SQL接口 -->
+<mapper namespace="com.ak1ak1.mapper.mapper2.GresaSaDtlMapper">
+	<select id="getGresaSaDtlsList" resultType="gresaSaDtl">
+		SELECT * FROM ( SELECT TMP_PAGE.*, ROWNUM ROW_ID FROM ( select rsadtlid,memo,goodsid from GRESA_SA_DTL where reciptdate > (select trunc(sysdate - 1) from dual) and memo is not null ) TMP_PAGE WHERE ROWNUM &lt;= #{limit} ) WHERE ROW_ID > #{page}
+	</select>
+	
+	<select id="getGresaSaDtlsCount" resultType="java.lang.Integer">
+		select count(0) from GRESA_SA_DTL where reciptdate > to_date('2018-01-01','yyyy-mm-dd') and memo is not null
+	</select>
+</mapper>
